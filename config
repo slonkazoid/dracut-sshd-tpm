@@ -1,0 +1,13 @@
+# TPM PCRs (platform control registers) to reference while sealing host keys
+# See ArchWiki for a list of registers:
+# https://wiki.archlinux.org/title/Trusted_Platform_Module#Accessing_PCR_registers
+# Example: `sha256:0,4`
+# Required, must be consistent across reboots.
+#tpm_pcrs=
+
+# Path to PCR dump to use while creating TPM policy
+# The next boot's registers must match for the keys to be unsealed
+# You can dump the current ones with the following command:
+# root@fedora:~# tpm2_pcrread -o pcr.bin "$tpm_pcrs"
+# Not required, will default to reading current register values.
+#tpm_pcr_bin=
