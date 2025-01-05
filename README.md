@@ -16,3 +16,5 @@ git clone https://git.slonk.ing/slonk/dracut-sshd-tpm
 cd dracut-sshd-tpm
 rpkg local
 ```
+
+The resulting package's path will be output to the console.
