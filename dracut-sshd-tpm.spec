@@ -20,7 +20,7 @@ and unseals them before sshd starts up.
 %install
 mkdir -p %{buildroot}/usr/lib/dracut/modules.d
 cp -r 47sshd-tpm %{buildroot}/usr/lib/dracut/modules.d
-install -Dt %{buildroot}/etc/default/dracut-sshd-tpm -m644 config 
+install -Dm644 config %{buildroot}/etc/default/dracut-sshd-tpm
 
 %files
 %dir /usr/lib/dracut/modules.d/47sshd-tpm
