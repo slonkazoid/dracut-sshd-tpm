@@ -6,6 +6,8 @@ check() {
     require_binaries tpm2_pcrread &&
     require_binaries tpm2_createpolicy &&
     require_binaries tpm2_create &&
+    require_binaries tpm2_startauthsession &&
+    require_binaries tpm2_policyrestart &&
     require_binaries tpm2_unseal ||
     return 1
 }
@@ -77,6 +79,8 @@ install() {
     inst_binary /usr/bin/chmod
     inst_binary /usr/bin/openssl
     inst_binary /usr/bin/basename
+    inst_binary /usr/bin/tpm2_startauthsession
+    inst_binary /usr/bin/tpm2_policyrestart
     inst_binary /usr/bin/tpm2_unseal
     inst_simple "${moddir}/unseal.sh" /usr/sbin/unseal.sh
     inst_simple "${moddir}/unseal.service" "${systemdsystemunitdir}/unseal.service"

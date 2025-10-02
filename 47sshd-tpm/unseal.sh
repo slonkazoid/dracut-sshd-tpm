@@ -2,11 +2,20 @@
 
 set -e
 
+try_unseal() {
+    tpm2_unseal -c key.ctx -p pcr:"$(cat pcrs)" -o key -S session.dat
+}
+
 cd /etc/ssh
 
 touch key
 chmod 600 key
-tpm2_unseal -c key.ctx -p pcr:"$(cat pcrs)" -o key
+# this is basically how systemd does it. the TPM is a nightmare machine
+tpm2_pcrread
+tpm2_startauthsession -S session.dat
+try_unseal || tpm2_policyrestart -S session.dat &&
+    try_unseal || tpm2_policyrestart -S session.dat &&
+    try_unseal
 
 for enc in *.enc; do
     base="${enc%.enc}"
