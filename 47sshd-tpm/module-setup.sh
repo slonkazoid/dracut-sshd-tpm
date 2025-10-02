@@ -1,7 +1,7 @@
 #!/bin/bash
 
 check() {
-	require_binaries openssl &&
+    require_binaries openssl &&
     require_binaries tpm2_createprimary &&
     require_binaries tpm2_pcrread &&
     require_binaries tpm2_createpolicy &&
@@ -47,7 +47,7 @@ seal() {
     echo "$tpm_pcrs" > "${initdir}/etc/ssh/pcrs"
 
     cd "${initdir}/etc/ssh"
-    
+
     # encrypt keys
     for key in ssh_host_*_key; do
         openssl aes-256-cbc -e -in "$key" -out "${key}.enc" -kfile "${tpm_tempdir}/key" -iter 1
