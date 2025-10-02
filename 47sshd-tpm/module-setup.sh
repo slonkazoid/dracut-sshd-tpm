@@ -25,7 +25,7 @@ seal() {
     openssl rand 32 > key
 
     # create TPM primary context
-    tpm2_createprimary -Q -c primary.ctx
+    tpm2_createprimary -Q -C o -c primary.ctx
 
     # gather PCR state
     if [ -n "$tpm_pcr_bin" ]; then
@@ -42,8 +42,11 @@ seal() {
     # seal the encryption key in the TPM
     tpm2_create -Q -C primary.ctx -L pcr.policy -i key -c key.ctx
 
+    # tell the TPM to persist the context in the first available slot
+    tpm2_evictcontrol -C o -c key.ctx -o persistent.ctx
+
     # copy sealed encryption key and relevant information to the initramfs
-    /usr/bin/install -Dm 644 key.ctx "${initdir}/etc/ssh/key.ctx"
+    /usr/bin/install -Dm 644 persistent.ctx "${initdir}/etc/ssh/key.ctx"
     echo "$tpm_pcrs" > "${initdir}/etc/ssh/pcrs"
 
     cd "${initdir}/etc/ssh"
