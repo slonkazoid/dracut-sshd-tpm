@@ -3,10 +3,15 @@
 set -e
 
 try_unseal() {
-    tpm2_unseal -c key.ctx -p pcr:"$(cat pcrs)" -o key -S session.dat
+    tpm2_unseal -c key.ctx -p "$(<auth)" -o key # -S session.dat
 }
 
-cd /etc/ssh
+cd /etc/dracut-seal-tpm
+
+if [[ ! -f files.tar.zst.enc ]]; then
+    echo "nothing to do" >&2
+    exit
+fi
 
 touch key
 chmod 600 key
@@ -17,9 +22,6 @@ try_unseal || tpm2_policyrestart -S session.dat &&
     try_unseal || tpm2_policyrestart -S session.dat &&
     try_unseal
 
-for enc in *.enc; do
-    base="${enc%.enc}"
-    touch "$base"
-    chmod 600 "$base"
-    openssl aes-256-cbc -d -in "$enc" -out "$base" -kfile key -iter 1
-done
+openssl aes-256-cbc -d -in files.tar.zst.enc -kfile key -iter 1 |
+    zstd -dc |
+    bsdtar xvC /

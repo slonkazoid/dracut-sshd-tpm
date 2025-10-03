@@ -1,10 +1,11 @@
 # dracut-sshd-tpm
 
-TPM sealing of [dracut-sshd](https://github.com/gsauthof/dracut-sshd) host keys
+TPM sealing of files in the initramfs. Originally intended for
+[dracut-sshd](https://github.com/gsauthof/dracut-sshd)'s host keys.
 
 ## Configuration
 
-The default configuration is placed into /etc/default/dracut-sshd-tpm. You will
+The default configuration is placed into /etc/default/dracut-seal-tpm. You will
 need to configure, at minimum, which registers to use while sealing the host
 keys (the `tpm_pcrs` value).
 

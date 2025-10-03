@@ -1,7 +1,7 @@
 [Unit]
-Description=Unseal OpenSSH host keys
+Description=Unseal TPM-sealed files
 DefaultDependencies=no
-Before=sshd.service
+Before=BEFORE
 After=tpm2.target systemd-pcrphase.service systemd-pcrphase-initrd.service
 Requires=tpm2.target
 
@@ -10,4 +10,5 @@ Type=oneshot
 ExecStart=/usr/sbin/unseal.sh
 
 [Install]
-RequiredBy=sshd.service
+RequiredBy=REQUIRED_BY
+WantedBy=WANTED_BY

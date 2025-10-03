@@ -11,3 +11,20 @@
 # root@fedora:~# tpm2_pcrread -o pcr.bin "$tpm_pcrs"
 # Not required, will default to reading current register values.
 #tpm_pcr_bin=
+
+# List of files and directories to seal
+# Paths should be absolute, and root corresponds to the initramfs root
+files=()
+# You can find and append paths to this array:
+#    for key in "${initdir}"/etc/ssh/ssh_host_*_key; do
+#	     files+=("${key#${initdir}}")
+#    done
+
+# Unseal files before any of these systemd units start
+#before="sshd.service NetworkManager.service"
+
+# Require unsealing to happen before these units can be started
+#required_by="sshd.service"
+
+# Attempt unsealing when these units are started
+#wanted_by="NetworkManager.service"
