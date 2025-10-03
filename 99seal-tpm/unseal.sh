@@ -24,4 +24,4 @@ try_unseal || tpm2_policyrestart -S session.dat &&
 
 openssl aes-256-cbc -d -in files.tar.zst.enc -kfile key -iter 1 |
     zstd -dc |
-    bsdtar xvC /
+    bsdtar xvC / --no-fflags || :

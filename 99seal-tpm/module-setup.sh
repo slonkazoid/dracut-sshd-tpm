@@ -47,7 +47,7 @@ seal() {
         # seal the encryption key in the TPM
         tpm2_create -Q -C primary.ctx -L pcr.policy -i key -c key.ctx
 
-        bsdtar cC "${initdir}" "${files[@]}" |
+        bsdtar cC "${initdir}" --no-fflags "${files[@]}" |
             zstd -3c | 
             openssl aes-256-cbc -e -out "files.tar.zst.enc" -kfile "${tpm_tempdir}/key" -iter 1
         for file in "${files[@]}"; do
